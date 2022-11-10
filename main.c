@@ -24,13 +24,17 @@ void testIR(int argc, char *argv[])
 	while (ch != 'q') {
 	mvprintw(1, 1,"%d", initio_IrLineLeft());
 	if (initio_IrLineLeft() > initio_IrLineRight()){
-		initio_TurnForward(100, 5);
+		initio_TurnForward(50, 0);
 	}
 	if (initio_IrLineRight() > initio_IrLineLeft()){
-		initio_TurnForward(5, 100);
+		initio_TurnForward(0, 50);
+	}
+	if ((initio_IrLineRight() == 0) && (initio_IrLineLeft() == 0)){
+		initio_DriveForward(35);
 	}
 	if ((initio_IrLineRight() == 1) && (initio_IrLineLeft() == 1)){
-		initio_DriveForward(100);
+		initio_DriveForward(0);
+
 	}
 	ch = getch();
 
