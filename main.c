@@ -23,11 +23,11 @@ void testIR(int argc, char *argv[])
 	int ch = 0;
 	while (ch != 'q') {
 	mvprintw(1, 1,"%d", initio_IrLineLeft());
-	if (initio_IrLineLeft() < initio_IrLineRight()){
-		initio_TurnForward(100, 50);
+	if (initio_IrLineLeft() > initio_IrLineRight()){
+		initio_TurnForward(100, 5);
 	}
-	if (initio_IrLineRight() < initio_IrLineLeft()){
-		initio_TurnForward(50, 100);
+	if (initio_IrLineRight() > initio_IrLineLeft()){
+		initio_TurnForward(5, 100);
 	}
 	if ((initio_IrLineRight() == 1) && (initio_IrLineLeft() == 1)){
 		initio_DriveForward(100);
