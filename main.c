@@ -20,34 +20,50 @@
 //======================================================================
 void testIR(int argc, char *argv[]) 
 {
-	int ch = 0;
-	while (ch != 'q') {
-	mvprintw(1, 1,"%d", initio_IrLineLeft());
-	if (initio_IrLineLeft() > initio_IrLineRight()){
-		initio_TurnForward(50, 0);
-	}
-	if (initio_IrLineRight() > initio_IrLineLeft()){
-		initio_TurnForward(0, 50);
-	}
-	if ((initio_IrLineRight() == 0) && (initio_IrLineLeft() == 0)){
-		initio_DriveForward(35);
-	}
-	if ((initio_IrLineRight() == 1) && (initio_IrLineLeft() == 1)){
-		initio_DriveForward(0);
+int ch = 0;
 
+while (ch != 'q') {
+	mvprintw(1, 1,"%s: Press 'q' to end program", argv[0]);
+	if (initio_IrLeft()==0 && initio_IrRight()==0) {
+    		// no obstacle ahead, so follow line
+		int lfL = initio_IrLineLeft();
+		int lfR = initio_IrLineRight();
+		if (lfL == 0 && lfR == 0) { 
+		mvprintw(3, 1,"Action 2: Straight (Line sensors: %d, %d)    ", lfL, lfR);
+		// todo: move straight forward
+		initio_DriveForward (30); 
+    		}
+    		else if (lfL == 0 && lfR == 1) {
+      		// car is too much on the right
+      		mvprintw(3, 1,"Action 3: Spin left (Line sensors: %d, %d)    ", lfL, lfR);
+		// todo: turn left
+		initio_SpinLeft(100);
+		//initio_TurnForward(0, 100);
+		}
+		else if (lfL == 1 && lfR == 0) {
+		// car is too much on the left
+		mvprintw(3, 1,"Action 4: Spin right (Line sensors: %d, %d)    ", lfL, lfR);
+		initio_SpinRight(100);
+		//initio_TurnForward(100, 0);		}
+		else {
+		mvprintw(3, 1,"Lost my line (Line sensors: %d, %d)        ", lfL, lfR);
+      		// todo: Stop
+		initio_DriveForward (0); 
+    		}
 	}
+	else {
+		initio_DriveForward (0); // Stop
+	} // if
 	ch = getch();
-
-
-	if (ch != ERR)
+	if (ch != ERR){
 		mvprintw(2, 1,"Key code: '%c' (%d)", ch, ch);
 		refresh();
-		delay (100); // pause 100ms
-		} // while
-
-	return;
+		delay (50); // pause 100ms
+  	} // while
+	ch = getch();
 }
-
+return;
+}
 
 //======================================================================
 // main(): initialisation of libraries, etc
