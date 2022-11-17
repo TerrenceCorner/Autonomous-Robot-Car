@@ -18,11 +18,13 @@
 // Drive forward and stop whenever an obstacle is detected by either
 // the left or right infrared (IR) sensor.
 //======================================================================
-void testIR(int argc, char *argv[]) 
+void testIR(int argc, char *argv[])
 {
 int ch = 0;
+int left = 0;
+int right = 0;
 
-while (ch != 'q') {
+while (ch != 'q') { 
         mvprintw(1, 1,"%s: Press 'q' to end program", argv[0]);
         if (initio_IrLeft()==0 && initio_IrRight()==0) {
                 // no obstacle ahead, so follow line
@@ -31,7 +33,9 @@ while (ch != 'q') {
                 if (lfL == 0 && lfR == 0) { 
                 mvprintw(3, 1,"Action 2: Straight (Line sensors: %d, %d)    ", lfL, lfR);
                 // todo: move straight forward
-                initio_DriveForward (100); 
+                initio_DriveForward (100);
+                left = 0;
+                right = 0;
                 }
                 else if (lfL == 0 && lfR == 1) {
                 // car is too much on the right
@@ -39,19 +43,30 @@ while (ch != 'q') {
                 // todo: turn left
                 initio_SpinLeft(100);   
                 //initio_TurnForward(0, 100);
+                left = 1;
+                right = 0;
                 }
                 else if (lfL == 1 && lfR == 0) {
                 // car is too much on the left
                 mvprintw(3, 1,"Action 4: Spin right (Line sensors: %d, %d)    ", lfL, lfR);
-                initio_SpinRight(100);  
+                initio_SpinRight(100);
+                left = 0;
+                right = 1;
                 }
                 else {
                 mvprintw(3, 1,"Lost my line (Line sensors: %d, %d)        ", lfL, lfR);
                 // todo: Stop
-                initio_DriveReverse(30);
+
+                if (left == 1 && right == 0) {
+                initio_TurnReverse(100, 30);
                 }
+                if (left == 0 && right == 1) {
+                initio_TurnReverse(30, 100);
+                }
+        delay(100);
         }
-        else {
+        }
+        else {  
                 initio_DriveForward (0); // Stop
         } // if
         ch = getch();
@@ -63,8 +78,8 @@ while (ch != 'q') {
         ch = getch();
 }
 return;
-
 }
+
 
 //======================================================================
 // main(): initialisation of libraries, etc
