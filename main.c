@@ -22,7 +22,7 @@ void testIR(int argc, char *argv[])
 {
 int ch = 0;
 
-while (ch != 'q') {
+while (ch != 'q') { 
         mvprintw(1, 1,"%s: Press 'q' to end program", argv[0]);
         if (initio_IrLeft()==0 && initio_IrRight()==0) {
                 // no obstacle ahead, so follow line
@@ -31,7 +31,7 @@ while (ch != 'q') {
                 if (lfL == 0 && lfR == 0) { 
                 mvprintw(3, 1,"Action 2: Straight (Line sensors: %d, %d)    ", lfL, lfR);
                 // todo: move straight forward
-                initio_DriveForward (100); 
+                initio_DriveForward (100);
                 }
                 else if (lfL == 0 && lfR == 1) {
                 // car is too much on the right
@@ -43,15 +43,17 @@ while (ch != 'q') {
                 else if (lfL == 1 && lfR == 0) {
                 // car is too much on the left
                 mvprintw(3, 1,"Action 4: Spin right (Line sensors: %d, %d)    ", lfL, lfR);
-                initio_SpinRight(100);  
+                initio_SpinRight(100);
                 }
-                else {
+                else if(lfL == 1 && lfR == 1){
                 mvprintw(3, 1,"Lost my line (Line sensors: %d, %d)        ", lfL, lfR);
-                // todo: Stop
-                initio_DriveReverse(30);
+
+
+                initio_DriveReverse(50);
+                delay(50);
                 }
         }
-        else {
+        else {  
                 initio_DriveForward (0); // Stop
         } // if
         ch = getch();
@@ -63,8 +65,8 @@ while (ch != 'q') {
         ch = getch();
 }
 return;
-
 }
+
 
 //======================================================================
 // main(): initialisation of libraries, etc
