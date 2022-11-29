@@ -30,15 +30,14 @@ while (ch != 'q') {
                 int lfR = initio_IrLineRight();
                 if (lfL == 0 && lfR == 0) {
                 mvprintw(3, 1,"Action 2: Straight (Line sensors: %d, %d)    ", lfL, lfR);
-                // todo: move straight forward
+                // move straight forward
                 initio_DriveForward (70);
                 }
                 else if (lfL == 0 && lfR == 1) {
                 // car is too much on the right
                 mvprintw(3, 1,"Action 3: Spin left (Line sensors: %d, %d)    ", lfL, lfR);
-                // todo: turn left
-                initio_SpinLeft(100);   
-                //initio_TurnForward(0, 100);
+                // turn left
+                initio_SpinLeft(100);
                 }
                 else if (lfL == 1 && lfR == 0) {
                 // car is too much on the left
@@ -53,7 +52,7 @@ while (ch != 'q') {
                 }
         }
         else {  
-                initio_DriveForward (0); // Stop
+                initio_Stop(); // Stop
         } // if
         ch = getch();
         if (ch != ERR){
