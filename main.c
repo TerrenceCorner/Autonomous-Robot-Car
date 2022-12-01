@@ -58,7 +58,7 @@ while (ch != 'q') {
         if (ch != ERR){
                 mvprintw(2, 1,"Key code: '%c' (%d)", ch, ch);
                 refresh();
-                delay (50); // pause 100ms
+                delay (50); // pause 50ms
         } // while
         ch = getch();
 }
